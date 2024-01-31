@@ -1,0 +1,17 @@
+.solo-toolkit-settings {
+	.custom-result-item {
+		flex: 1;
+		display: flex;
+		align-items: center;
+		gap: 8px;
+	}
+
+	.custom-result-label {
+		flex: 1;
+		padding: 4px 8px;
+		background: hsla(0, 0%, 100%, 0.1);
+		border-radius: 4px;
+		font-weight: bold;
+		text-align: center;
+	}
+}

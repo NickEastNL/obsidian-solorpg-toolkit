@@ -1,0 +1,68 @@
+.rpg-roll {
+	display: flex;
+	flex-direction: column;
+	max-width: 20em;
+	padding: 0.4rem;
+	background: hsla(0, 0%, 100%, 0.1);
+	border-radius: 4px;
+	line-height: 1.1;
+
+	> *:not(:last-child) {
+		margin-bottom: 0.4rem;
+	}
+
+	.roll-type {
+		font-style: italic;
+	}
+
+	.roll-formula {
+		padding: 0.2rem;
+		background: hsla(0, 0%, 100%, 0.1);
+		border: 1px solid hsla(0, 0%, 100%, 0.4);
+		border-radius: 3px;
+		font-size: 0.8em;
+		text-align: center;
+	}
+
+	.roll-comparison {
+		display: flex;
+		align-items: center;
+		font-size: 0.8em;
+		line-height: 1.3;
+
+		label {
+			margin-right: 0.4rem;
+		}
+	}
+
+	.roll-icon {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		height: auto;
+
+		svg {
+			width: 1.2em;
+			height: 1.2em;
+			stroke-width: 1.75px;
+		}
+	}
+
+	.roll-result {
+		font-size: 1.1em;
+		font-weight: bold;
+		text-align: center;
+
+		&.fail,
+		&.fails,
+		&.failure {
+			color: hsla(0, 80%, 60%, 0.8);
+		}
+
+		&.succeed,
+		&.succeeds,
+		&.success {
+			color: hsla(100, 80%, 60%, 0.8);
+		}
+	}
+}

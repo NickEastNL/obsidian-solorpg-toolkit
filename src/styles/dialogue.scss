@@ -1,0 +1,28 @@
+.rpg-dialogue {
+	--border-color: var(--color-accent);
+
+	display: flex;
+	margin: var(--p-spacing) 0;
+
+	> * {
+		padding: 0.5em;
+	}
+
+	.dialogue-name {
+		width: 100px;
+		border-right: 2px solid var(--border-color);
+		font-weight: bold;
+	}
+
+	.dialogue-content {
+		flex: 1;
+
+		:first-child {
+			margin-top: 0;
+		}
+
+		:last-child {
+			margin-bottom: 0;
+		}
+	}
+}
