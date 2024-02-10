@@ -1,17 +1,23 @@
+.markdown-source-view .block-language-rpg-dialogue {
+	padding: var(--p-spacing) 0;
+	border-top: 1px solid hsla(0, 0%, 50%, 0.2);
+	border-bottom: 1px solid hsla(0, 0%, 50%, 0.2);
+}
+
 .rpg-dialogue {
 	--border-color: var(--color-accent);
 
 	display: flex;
-	margin: var(--p-spacing) 0;
+	padding: 0.5em 0;
 
 	> * {
-		padding: 0.5em;
+		padding: 0 0.5rem;
 	}
 
 	.dialogue-name {
-		width: 100px;
+		width: 9em;
 		border-right: 2px solid var(--border-color);
-		font-weight: bold;
+		font-weight: 700;
 	}
 
 	.dialogue-content {
@@ -24,5 +30,9 @@
 		:last-child {
 			margin-bottom: 0;
 		}
+	}
+
+	.dialogue-parenthetical {
+		font-style: italic;
 	}
 }

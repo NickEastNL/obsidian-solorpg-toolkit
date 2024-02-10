@@ -11,17 +11,12 @@
 	"license": "MIT",
 	"devDependencies": {
 		"@types/node": "^20.11.13",
-		"@volar/vue-language-plugin-pug": "^1.6.4",
 		"builtin-modules": "^3.3.0",
 		"esbuild": "^0.20.0",
-		"esbuild-plugin-vue3": "^0.4.2",
 		"esbuild-sass-plugin": "^3.0.0",
 		"obsidian": "^1.4.11",
 		"pug": "^3.0.2",
 		"sass": "^1.70.0",
 		"typescript": "^5.3.3"
-	},
-	"dependencies": {
-		"vue": "^3.4.15"
 	}
 }

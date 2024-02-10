@@ -1,5 +1,4 @@
 import esbuild from 'esbuild';
-import vue from 'esbuild-plugin-vue3';
 import { sassPlugin } from 'esbuild-sass-plugin';
 import builtins from 'builtin-modules';
 
@@ -17,7 +16,7 @@ const jsContext = await esbuild.context({
 	banner: {
 		js: banner,
 	},
-	plugins: [vue({ isProd }), sassPlugin()],
+	plugins: [],
 	entryPoints: ['./src/main.ts'],
 	bundle: true,
 	external: [
@@ -46,7 +45,7 @@ const jsContext = await esbuild.context({
 });
 
 const cssContext = await esbuild.context({
-	entryPoints: ['./main.css'],
+	entryPoints: ['./src/styles/main.scss'],
 	outfile: 'styles.css',
 	plugins: [sassPlugin()],
 	bundle: true,

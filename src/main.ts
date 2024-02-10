@@ -1,11 +1,10 @@
 import { MarkdownView, Plugin } from 'obsidian';
 
+import { CustomResult, RpgPluginSettings } from './@types';
 import { rollProcessor } from './markdown/roll';
 import { dialogueProcessor } from './markdown/dialogue';
-import { CustomResult, RpgPluginSettings } from './@types';
-import { RpgSettingTab } from './settings';
 
-import './styles/main.scss';
+import { RpgSettingTab } from './settings';
 
 export const DEFAULT_SETTINGS: RpgPluginSettings = {
 	customResults: {},
@@ -30,7 +29,7 @@ export default class RpgPlugin extends Plugin {
 	}
 
 	async onunload() {
-		console.log('Unoading Solo RPG Toolkit plugin.');
+		console.log('Unloading Solo RPG Toolkit plugin.');
 	}
 
 	async loadSettings() {

@@ -1,13 +1,5 @@
-import {
-	MarkdownPostProcessorContext,
-	MarkdownRenderChild,
-	parseYaml,
-} from 'obsidian';
-import { App as VueApp, createApp } from 'vue';
+import { MarkdownPostProcessorContext, parseYaml } from 'obsidian';
 
-import RollFormat from '../components/RollFormat.vue';
-import PathfinderRoll from '../components/PathfinderRoll.vue';
-import M2d20Roll from '../components/M2d20Roll.vue';
 import RpgPlugin from 'src/main';
 
 interface RollData {
@@ -19,46 +11,12 @@ interface RollData {
 	outcome: string;
 }
 
-export class RollRenderer extends MarkdownRenderChild {
-	app: VueApp;
-
-	constructor(container: HTMLElement, data: string) {
-		super(container);
-
-		this.app = createApp(RollFormat, { data });
-		this.app.component('PathfinderRoll', PathfinderRoll);
-		this.app.component('M2d20Roll', M2d20Roll);
-		this.app.mount(container);
-	}
-}
-
 export async function rollProcessor(
 	plugin: RpgPlugin,
 	source: string,
 	el: HTMLElement,
 	ctx: MarkdownPostProcessorContext
 ) {
-	// 	try {
-	// 		const data = source;
-	// 		const render = new RollRenderer(el, data);
-	// 		render.onunload = () => {
-	// 			const newPre = createEl('pre');
-	// 			newPre.createEl('code', {
-	// 				text: `\`\`\`rpg-roll\n${source}\`\`\``,
-	// 			});
-	// 			render.containerEl.replaceWith(newPre);
-	// 		};
-	// 		ctx.addChild(render);
-	// 	} catch (e) {
-	// 		console.error(e);
-	// 		const pre = el.createEl('pre', {
-	// 			text: `\`\`\`rpg-roll
-	// There was an error:
-	// ${e}\`\`\``,
-	// 		});
-	// 		el.replaceWith(pre);
-	// 	}
-
 	const data: RollData = parseYaml(source) || {};
 
 	const container = el.createDiv('rpg-roll');

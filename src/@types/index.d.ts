@@ -7,6 +7,13 @@ export interface CustomResult {
 	color: string;
 }
 
+export interface Token {
+	type: string;
+	text: string;
+}
+
+// Old types that need reorganizing
+
 export interface RawRollBlock {
 	isSeperator?: boolean;
 	description?: string;
