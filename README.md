@@ -10,8 +10,13 @@ Renders a code block as a simple container. The block parses the first line as t
 
 <pre>
 ```rpg-dialogue
-[Name]
+@[Name]
 [Markdown supported text]
+
+![Inline action]
+
+@[Another Name]
+[More dialogue]
 ```
 </pre>
 
@@ -19,12 +24,20 @@ Renders a code block as a simple container. The block parses the first line as t
 
 <pre>
 ```rpg-dialogue
-Zora
-Careful, we're not alone here.
+@Elmina
+And, strangely... Where *is* Gundren anyway? He was supposed to arrive no later than two days ago.
+
+@Meira
+We apologize, but we were waylaid by goblins. It appears Gundren was taken captive.
+
+!Elmina’s face turns ashen.
+
+@Elmina
+What?! Captured? By goblins? Oh, no. Oh, no, no, no. That's not good. You must find him, help him. Oh dear, if anything bad happened to him...
 ```
 </pre>
 
-<img src="./images/dialogue_render.png" alt="Dialogue example" width="1000">
+<img src="./images/dialogue_render.png" alt="Dialogue example" width="700">
 
 ## [Roll block](#roll-block)
 
