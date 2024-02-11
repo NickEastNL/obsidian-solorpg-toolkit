@@ -7,19 +7,27 @@ import {
 import { Token } from 'src/@types';
 
 function parser(source: string) {
-	const lines = source.split(/\n/);
+	const lines = source.replace(/^\s*/, '').split(/\n/);
 
+	let index = -1;
 	let isDialogue = false;
 	let isAction = false;
-	let newLinesBefore = 0;
 	const tokens: Token[] = [];
 	for (const line of lines) {
+		index++;
+
+		if (line.length > 0 && index === 0) {
+			tokens.push({ type: 'character', text: line });
+			isDialogue = true;
+			isAction = false;
+			continue;
+		}
+
 		if (line.length > 0 && line.startsWith('@')) {
 			const text = line.match(/^@[^\S]*(.*)/)[1];
 			tokens.push({ type: 'character', text });
 			isDialogue = true;
 			isAction = false;
-			newLinesBefore = 0;
 			continue;
 		}
 
@@ -28,11 +36,16 @@ function parser(source: string) {
 			tokens.push({ type: 'action', text });
 			isDialogue = false;
 			isAction = true;
-			newLinesBefore = 0;
 			continue;
 		}
 
 		if (line === '') {
+			if (isDialogue) {
+				tokens.push({ type: 'dialogue', text: line });
+			}
+			if (isAction) {
+				tokens.push({ type: 'action', text: line });
+			}
 			continue;
 		}
 
@@ -60,8 +73,6 @@ export async function dialogueProcessor(
 	el: HTMLElement,
 	ctx: MarkdownPostProcessorContext
 ) {
-	const data = source.match(/^(.*)\n([\s\S]*)/);
-
 	const tokens = parser(source);
 
 	const render = async (text: string) => {
@@ -71,45 +82,55 @@ export async function dialogueProcessor(
 	};
 
 	let html = '';
-	let currentBlock = null;
+	let isDialogue = false;
+	let currentName = '';
+	let currentBody = '';
 	for (let i = 0; i < tokens.length; i++) {
 		const token = tokens[i];
 
 		if (token.type === 'character') {
-			currentBlock = {
-				name: token.text,
-				content: '',
-			};
+			currentName = token.text;
+			isDialogue = true;
 			continue;
 		}
 
-		if (currentBlock) {
+		if (isDialogue) {
 			if (token.type === 'dialogue') {
 				const nextToken = tokens[i + 1];
 
 				if (nextToken?.type === 'dialogue') {
-					currentBlock.content += `${token.text}\n\n`;
+					currentBody += `${token.text}\n\n`;
 				} else {
-					currentBlock.content += `${token.text}`;
-					currentBlock.content = await render(currentBlock.content);
+					currentBody += token.text;
+					currentBody = await render(currentBody);
 
 					const container = createDiv('rpg-dialogue');
-					container
-						.createSpan('dialogue-name')
-						.setText(currentBlock.name);
+					container.createSpan('dialogue-name').setText(currentName);
 					container.createSpan('dialogue-content').innerHTML =
-						currentBlock.content;
+						currentBody;
 					html += container.outerHTML;
-					currentBlock = null;
+					currentName = '';
+					currentBody = '';
+					isDialogue = false;
 				}
 				continue;
 			}
 		}
 
 		if (token.type === 'action') {
-			html += await render(token.text);
+			const nextToken = tokens[i + 1];
+
+			if (nextToken?.type === 'action') {
+				currentBody += `${token.text}\n`;
+			} else {
+				currentBody += token.text;
+				currentBody = await render(currentBody);
+				html += currentBody;
+				currentBody = '';
+			}
+			continue;
 		}
 	}
-
+	console.debug(html);
 	el.innerHTML = html;
 }
