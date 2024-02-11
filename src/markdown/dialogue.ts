@@ -51,7 +51,7 @@ function parser(source: string) {
 
 		if (isDialogue) {
 			const text = line.replace(
-				/^\s*(\(\S+\))/,
+				/(\(\S+\))/,
 				'<span class="dialogue-parenthetical">$1</span>'
 			);
 			tokens.push({ type: 'dialogue', text });
