@@ -131,6 +131,6 @@ export async function dialogueProcessor(
 			continue;
 		}
 	}
-	console.debug(html);
+
 	el.innerHTML = html;
 }
