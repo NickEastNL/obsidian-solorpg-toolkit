@@ -163,7 +163,7 @@ export async function dialogueProcessor(
 				for (const childNode of Array.from(node.childNodes)) {
 					if (childNode.nodeName !== '#text') continue;
 
-					const regex = /^([\S\s]*)(\([A-Za-z]*\))([\S\s]*)/;
+					const regex = /^([\S\s]*)(\(.*\))([\S\s]*)/;
 					const match = childNode.nodeValue.match(regex);
 					if (!match) continue;
 					const parens = createSpan({

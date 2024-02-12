@@ -1,7 +1,7 @@
 {
 	"id": "solorpg-toolkit",
 	"name": "Solo RPG Toolkit Plugin",
-	"version": "0.3.0",
+	"version": "0.3.1",
 	"minAppVersion": "0.15.0",
 	"description": "A suite of tools to make solo roleplaying easier.",
 	"author": "Nick van Oosten",
