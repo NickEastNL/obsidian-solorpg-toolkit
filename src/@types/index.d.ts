@@ -12,6 +12,12 @@ export interface Token {
 	text: string;
 }
 
+export interface DialogueState {
+	from: number;
+	to: number;
+	lines: string[];
+}
+
 // Old types that need reorganizing
 
 export interface RawRollBlock {

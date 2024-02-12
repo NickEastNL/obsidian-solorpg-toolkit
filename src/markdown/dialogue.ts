@@ -67,7 +67,7 @@ function parser(source: string) {
 	return tokens;
 }
 
-export async function dialogueProcessor(
+export async function dialogueCodeProcessor(
 	plugin: Plugin,
 	source: string,
 	el: HTMLElement,
@@ -133,4 +133,56 @@ export async function dialogueProcessor(
 	}
 
 	el.innerHTML = html;
+}
+
+export async function dialogueProcessor(
+	el: HTMLElement,
+	ctx: MarkdownPostProcessorContext
+) {
+	const quotes = el.findAll('blockquote');
+
+	for (const quote of quotes) {
+		const firstEl = quote.children[0] as HTMLElement;
+
+		if (!firstEl?.innerText.match(/@/)) return;
+		if (firstEl.firstElementChild?.nodeName === 'BR') {
+			const firstChild = firstEl.firstChild;
+			const pNode = createEl('p', { text: firstChild.nodeValue });
+			quote.firstChild.replaceWith(pNode);
+			firstEl.firstChild.remove();
+			firstEl.firstChild.remove();
+		}
+
+		const children = Array.from(quote.children) as HTMLElement[];
+		const character = children.shift();
+
+		character.innerText = character.innerText.replace(/^([\s]*@)/, '');
+
+		for (const node of children) {
+			if (node.nodeName === 'P') {
+				for (const childNode of Array.from(node.childNodes)) {
+					if (childNode.nodeName !== '#text') continue;
+
+					const regex = /^([\S\s]*)(\([A-Za-z]*\))([\S\s]*)/;
+					const match = childNode.nodeValue.match(regex);
+					if (!match) continue;
+					const parens = createSpan({
+						cls: 'dialogue-parenthetical',
+						text: match[2],
+					});
+
+					childNode.replaceWith(match[1], parens, match[3]);
+				}
+			}
+		}
+
+		const container = createDiv('rpg-dialogue');
+		const nameSpan = container.createSpan('dialogue-name');
+		const contentSpan = container.createSpan('dialogue-content');
+
+		nameSpan.replaceChildren(character.innerText);
+		contentSpan.replaceChildren(...children);
+
+		quote.replaceWith(container);
+	}
 }

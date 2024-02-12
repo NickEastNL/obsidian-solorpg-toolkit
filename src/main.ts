@@ -2,7 +2,8 @@ import { MarkdownView, Plugin } from 'obsidian';
 
 import { CustomResult, RpgPluginSettings } from './@types';
 import { rollProcessor } from './markdown/roll';
-import { dialogueProcessor } from './markdown/dialogue';
+import { dialogueCodeProcessor, dialogueProcessor } from './markdown/dialogue';
+import { dialogueField } from './editor/dialogue';
 
 import { RpgSettingTab } from './settings';
 
@@ -15,6 +16,7 @@ export default class RpgPlugin extends Plugin {
 
 	async onload() {
 		console.log('Loading Solo RPG Toolkit plugin.');
+
 		await this.loadSettings();
 		this.addSettingTab(new RpgSettingTab(this.app, this));
 
@@ -24,7 +26,11 @@ export default class RpgPlugin extends Plugin {
 
 		this.registerMarkdownCodeBlockProcessor(
 			'rpg-dialogue',
-			(source, el, ctx) => dialogueProcessor(this, source, el, ctx)
+			(source, el, ctx) => dialogueCodeProcessor(this, source, el, ctx)
+		);
+
+		this.registerMarkdownPostProcessor((el, ctx) =>
+			dialogueProcessor(el, ctx)
 		);
 	}
 
